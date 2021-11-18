@@ -3,12 +3,28 @@ package mybinarytreeexample;
 public class MyBinaryTree<E extends Comparable<E>> {
 
     private Node<E> root = null;
+    private boolean isFlagged = false;
+
+    /**
+     * Problem 2 : boolean field
+     *
+     * Problem 3 : search method to see if element is searched
+     *
+     * Problem 4 : Delete all the nodes and use preorder traversal to create a new tree
+     *
+     * Problem 5: Display all nodes that was leaves, check if both child of nodes left and right are null
+     * that means it must be leaf
+     *
+     * Problem 6: Print BST in breath first search from left to right
+     * @param <E>
+     */
 
     public class Node<E> {
 
         public E e = null;
         public Node<E> left = null;
         public Node<E> right = null;
+        public boolean isFlagged = false;
     }
 
     public boolean insert(E e) {
@@ -54,6 +70,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
         inorder(root);
         System.out.println();
     }
+
     private void inorder(Node<E> current) {
         if (current != null) {
             inorder(current.left);
@@ -67,6 +84,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
         preorder(root);
         System.out.println();
     }
+
     private void preorder(Node<E> current) {
         if (current != null) {
             System.out.printf("%3s", current.e);
@@ -80,6 +98,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
         postorder(root);
         System.out.println();
     }
+
     private void postorder(Node<E> current) {
         if (current != null) {
             postorder(current.left);
@@ -87,14 +106,14 @@ public class MyBinaryTree<E extends Comparable<E>> {
             System.out.printf("%3s", current.e);
         }
     }
-    
+
     public boolean delete(E e) {
-        
+
         // binary search until found or not in list
         boolean found = false;
         Node<E> parent = null;
         Node<E> child = root;
-        
+
         while (child != null) {
             if (e.compareTo(child.e) < 0) {
                 parent = child;
@@ -104,20 +123,21 @@ public class MyBinaryTree<E extends Comparable<E>> {
                 child = child.right;
             } else {
                 found = true;
+                isFlagged = true;
                 break;
             }
-        }        
-        
-        
+        }
+
+
         if (found) {
             // if root only is the only node, set root to null
             if (child == root && root.left == null && root.right == null)
                 root = null;
-            // if leaf, remove
+                // if leaf, remove
             else if (child.left == null && child.right == null) {
                 if (parent.left == child)
                     parent.left = null;
-                else 
+                else
                     parent.right = null;
             } else
                 // if the found node is not a leaf
@@ -128,43 +148,43 @@ public class MyBinaryTree<E extends Comparable<E>> {
                 if (child.left == null) {
                     if (parent.left == child)
                         parent.left = child.right;
-                    else 
+                    else
                         parent.right = child.right;
-            } else {
-                // if the found node has a left child,
-                // the node in the left subtree with the largest element 
-                // (i. e. the right most node in the left subtree) 
-                // takes the place of the node to be deleted
-                Node<E> parentLargest = child;
-                Node<E> largest = child.left;
-                while (largest.right != null) {
-                    parentLargest = largest;
-                    largest = largest.right;
+                } else {
+                    // if the found node has a left child,
+                    // the node in the left subtree with the largest element
+                    // (i. e. the right most node in the left subtree)
+                    // takes the place of the node to be deleted
+                    Node<E> parentLargest = child;
+                    Node<E> largest = child.left;
+                    while (largest.right != null) {
+                        parentLargest = largest;
+                        largest = largest.right;
+                    }
+
+                    // replace the element in the found node with the element in
+                    // the right most node of the left subtree
+                    child.e = largest.e;
+
+                    // if the parent of the node of the largest element in the
+                    // left subtree is the found node, set the left pointer of the
+                    // found node to point to left child of its left child
+                    if (parentLargest == child)
+                        child.left = largest.left;
+                    else
+                        // otherwise, set the right child pointer of the parent of
+                        // largest element in the left subtree to point to the left
+                        // subtree of the node of the largest element in the left
+                        // subtree
+                        parentLargest.right = largest.left;
                 }
-                
-                // replace the element in the found node with the element in
-                // the right most node of the left subtree
-                child.e = largest.e;
-                
-                // if the parent of the node of the largest element in the 
-                // left subtree is the found node, set the left pointer of the
-                // found node to point to left child of its left child
-                if (parentLargest == child)
-                    child.left = largest.left;
-                else 
-                    // otherwise, set the right child pointer of the parent of 
-                    // largest element in the left subtree to point to the left
-                    // subtree of the node of the largest element in the left 
-                    // subtree
-                    parentLargest.right = largest.left;
-            }
-            
+
         } // end if found
-        
+
         return found;
     }
-    
-    
+
+
     // an iterator allows elements to be modified, but can mess with
     // the order if element not written with immutable key; it is better
     // to use delete to remove and delete/insert to remove or replace a
@@ -172,12 +192,12 @@ public class MyBinaryTree<E extends Comparable<E>> {
     public java.util.Iterator<E> iterator() {
         return new PreorderIterator();
     }
-    
+
     private class PreorderIterator implements java.util.Iterator<E> {
-        
+
         private java.util.LinkedList<E> ll = new java.util.LinkedList();
-        private java.util.Iterator<E> pit= null;
-        
+        private java.util.Iterator<E> pit = null;
+
         // create a LinkedList object that uses a linked list of nodes that
         // contain references to the elements of the nodes of the binary tree 
         // in preorder
@@ -185,7 +205,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
             buildListInPreorder(root);
             pit = ll.iterator();
         }
-        
+
         private void buildListInPreorder(Node<E> current) {
             if (current != null) {
                 ll.add(current.e);
@@ -193,7 +213,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
                 buildListInPreorder(current.right);
             }
         }
-        
+
         // check to see if their is another node in the LinkedList
         @Override
         public boolean hasNext() {
@@ -208,7 +228,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
         }
 
         @Override
-        public void remove() { 
+        public void remove() {
             throw new UnsupportedOperationException("NO!");
         }
     }
