@@ -241,15 +241,15 @@ public class MyBinaryTree<E extends Comparable<E>> {
         //using preorder travseral to delete
         if(current != null){
             current.isFlagged = true;
+            System.out.print(current.e + " Is flagged to be deleted");
             preorder(current.left);
             preorder(current.right);
         }
+    }
 
-        if(current != null){
-            delete(current.e);
-            preorder(current.left);
-            preorder(current.right);
-        }
+    public void displayLeaves(){
+        //parameter accept tree
+        Node<E> current =
     }
 
 

@@ -13,6 +13,7 @@ public class MyBinaryTreeExample {
 
     public static void main(String[] args) {
         MyBinaryTree<Integer> mbt = new MyBinaryTree();
+        MyBinaryTree<Integer> mbt2 = new MyBinaryTree();
 
         mbt.insert(4);
         mbt.insert(20);
@@ -30,7 +31,10 @@ public class MyBinaryTreeExample {
         mbt.insert(15);
         mbt.insert(11);
         mbt.insert(0);
-        //mbt.insert(4);
+
+        mbt2.insert(2);
+        mbt2.insert(4);
+        mbt2.insert(7);
 
         mbt.inorder();
         mbt.preorder();
@@ -76,6 +80,10 @@ public class MyBinaryTreeExample {
         mbt.preorder();
         mbt.delete(2);
         mbt.preorder();
+
+        System.out.println(mbt2.search(7));
+        System.out.println(mbt2.lazyDelete(7));
+        //mbt.deleteTree(mbt2);
     }
 
 }
