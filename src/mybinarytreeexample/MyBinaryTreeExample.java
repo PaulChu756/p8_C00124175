@@ -30,6 +30,7 @@ public class MyBinaryTreeExample {
         mbt.insert(15);
         mbt.insert(11);
         mbt.insert(0);
+        //mbt.insert(4);
 
         mbt.inorder();
         mbt.preorder();

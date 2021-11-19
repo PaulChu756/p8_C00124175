@@ -49,6 +49,11 @@ public class MyBinaryTree<E extends Comparable<E>> {
                 parent = child;
                 child = child.right;
             } else {
+                if(child.isFlagged == true){
+                    child.isFlagged = false;
+                    child.e = e;
+                    return true;
+                }
                 return false;
             }
         }
@@ -181,6 +186,70 @@ public class MyBinaryTree<E extends Comparable<E>> {
         } // end if found
 
         return found;
+    }
+
+    /**
+     * LazyDelete method just goes through the BST to locate a element, and mark it for deletion
+     * @param e
+     * @return true or false if element is found
+     */
+    public boolean lazyDelete(E e) {
+        // binary search until found or not in list
+        boolean found = false;
+        Node<E> parent = null;
+        Node<E> child = root;
+
+        while (child != null) {
+            if (e.compareTo(child.e) < 0) {
+                parent = child;
+                child = child.left;
+            } else if (e.compareTo(child.e) > 0) {
+                parent = child;
+                child = child.right;
+            } else {
+                found = true;
+                child.isFlagged = true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    /**
+     * Search through the BST to see if it's found in BST
+     * @param e
+     * @return true or false if element is found
+     */
+    public boolean search(E e){
+        boolean found = false;
+        Node<E> current = root;
+
+        while (current != null) {
+            if (e.compareTo(current.e) < 0) {
+                current = current.left;
+            } else if (e.compareTo(current.e) > 0) {
+                current = current.right;
+            } else {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    public void deleteTree(Node<E> current){
+        //using preorder travseral to delete
+        if(current != null){
+            current.isFlagged = true;
+            preorder(current.left);
+            preorder(current.right);
+        }
+
+        if(current != null){
+            delete(current.e);
+            preorder(current.left);
+            preorder(current.right);
+        }
     }
 
 
