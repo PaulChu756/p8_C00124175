@@ -123,7 +123,6 @@ public class MyBinaryTree<E extends Comparable<E>> {
                 child = child.right;
             } else {
                 found = true;
-                isFlagged = true;
                 break;
             }
         }
