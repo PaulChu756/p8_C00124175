@@ -10,10 +10,8 @@ package mybinarytreeexample;
 //            entirely my own work.
 
 public class MyBinaryTreeExample {
-
     public static void main(String[] args) {
         MyBinaryTree<Integer> mbt = new MyBinaryTree();
-        MyBinaryTree<Integer> mbt2 = new MyBinaryTree();
 
         mbt.insert(4);
         mbt.insert(20);
@@ -32,13 +30,16 @@ public class MyBinaryTreeExample {
         mbt.insert(11);
         mbt.insert(0);
 
-        mbt2.insert(2);
-        mbt2.insert(4);
-        mbt2.insert(7);
+        mbt.insert(17);
+        mbt.insert(13);
+        mbt.insert(-7);
+        mbt.insert(-3);
 
         mbt.inorder();
         mbt.preorder();
         mbt.postorder();
+        System.out.print("Breadth First Search: ");
+        mbt.breadthFirstTraversal();
 
         System.out.println("\nIterator Example:");
         java.util.Iterator it = mbt.iterator();
@@ -81,9 +82,11 @@ public class MyBinaryTreeExample {
         mbt.delete(2);
         mbt.preorder();
 
-        System.out.println(mbt2.search(7));
-        System.out.println(mbt2.lazyDelete(7));
-        //mbt.deleteTree(mbt2);
-    }
 
+        System.out.println("Search for -7 : " + mbt.search(-7));
+        mbt.delete(-3);
+        mbt.preorder();
+        mbt = mbt.deleteTree(mbt.getRoot());
+        mbt.displayLeaves(mbt.getRoot());
+    }
 }

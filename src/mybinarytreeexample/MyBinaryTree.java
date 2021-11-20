@@ -3,28 +3,12 @@ package mybinarytreeexample;
 public class MyBinaryTree<E extends Comparable<E>> {
 
     private Node<E> root = null;
-    private boolean isFlagged = false;
-
-    /**
-     * Problem 2 : boolean field
-     *
-     * Problem 3 : search method to see if element is searched
-     *
-     * Problem 4 : Delete all the nodes and use preorder traversal to create a new tree
-     *
-     * Problem 5: Display all nodes that was leaves, check if both child of nodes left and right are null
-     * that means it must be leaf
-     *
-     * Problem 6: Print BST in breath first search from left to right
-     * @param <E>
-     */
 
     public class Node<E> {
-
         public E e = null;
         public Node<E> left = null;
         public Node<E> right = null;
-        public boolean isFlagged = false;
+        //public boolean isFlagged = false;
     }
 
     public boolean insert(E e) {
@@ -49,11 +33,6 @@ public class MyBinaryTree<E extends Comparable<E>> {
                 parent = child;
                 child = child.right;
             } else {
-                if(child.isFlagged == true){
-                    child.isFlagged = false;
-                    child.e = e;
-                    return true;
-                }
                 return false;
             }
         }
@@ -112,10 +91,18 @@ public class MyBinaryTree<E extends Comparable<E>> {
         }
     }
 
+
+    //Problem 2
+    /**
+     * Delete the node, but modfited it to flag nodes that have been deleted
+     * @param e
+     * @return returns true or false if node was deleted
+     */
     public boolean delete(E e) {
 
         // binary search until found or not in list
         boolean found = false;
+        boolean isFlagged = false;
         Node<E> parent = null;
         Node<E> child = root;
 
@@ -135,20 +122,26 @@ public class MyBinaryTree<E extends Comparable<E>> {
 
         if (found) {
             // if root only is the only node, set root to null
-            if (child == root && root.left == null && root.right == null)
+            if (child == root && root.left == null && root.right == null) {
                 root = null;
+                isFlagged = true;
+            }
                 // if leaf, remove
             else if (child.left == null && child.right == null) {
-                if (parent.left == child)
+                if (parent.left == child) {
                     parent.left = null;
-                else
+                    isFlagged = true;
+                }
+                else {
                     parent.right = null;
+                    isFlagged = true;
+                }
             } else
                 // if the found node is not a leaf
-                // and the found node only has a right child, 
-                // connect the parent of the found node (the one 
-                // to be deleted) to the right child of the 
-                // found node 
+                // and the found node only has a right child,
+                // connect the parent of the found node (the one
+                // to be deleted) to the right child of the
+                // found node
                 if (child.left == null) {
                     if (parent.left == child)
                         parent.left = child.right;
@@ -185,36 +178,10 @@ public class MyBinaryTree<E extends Comparable<E>> {
 
         } // end if found
 
-        return found;
+        return isFlagged;
     }
 
-    /**
-     * LazyDelete method just goes through the BST to locate a element, and mark it for deletion
-     * @param e
-     * @return true or false if element is found
-     */
-    public boolean lazyDelete(E e) {
-        // binary search until found or not in list
-        boolean found = false;
-        Node<E> parent = null;
-        Node<E> child = root;
-
-        while (child != null) {
-            if (e.compareTo(child.e) < 0) {
-                parent = child;
-                child = child.left;
-            } else if (e.compareTo(child.e) > 0) {
-                parent = child;
-                child = child.right;
-            } else {
-                found = true;
-                child.isFlagged = true;
-                break;
-            }
-        }
-        return found;
-    }
-
+    //Problem 3
     /**
      * Search through the BST to see if it's found in BST
      * @param e
@@ -237,19 +204,97 @@ public class MyBinaryTree<E extends Comparable<E>> {
         return found;
     }
 
-    public void deleteTree(Node<E> current){
+    /**
+     * getRoot returns the root of the tree
+     * Will need this when deleting the tree
+     * @return the root of the tree
+     */
+    public Node<E> getRoot(){
+        return root;
+    }
+
+    //Problem 4
+    /**
+     * deleteTree
+     * using preorder to delete the nodes that are marked to be deleted
+     * @param current
+     */
+    public MyBinaryTree deleteTree(Node<E> current){
         //using preorder travseral to delete
+        MyBinaryTree tempTree = new MyBinaryTree();
+
         if(current != null){
-            current.isFlagged = true;
-            System.out.print(current.e + " Is flagged to be deleted");
+            tempTree.insert(current.e);
+            preorder(current.left);
+            preorder(current.right);
+        }
+        return tempTree;
+    }
+
+    //Problem 5
+    /**
+     * Display leaves just displays all the leaf nodes
+     * @param current
+     */
+    public void displayLeaves(Node<E> current){
+        if(current != null){
+            if(current.left == null && current.right == null){
+                System.out.println(current.e);
+            }
             preorder(current.left);
             preorder(current.right);
         }
     }
 
-    public void displayLeaves(){
-        //parameter accept tree
-        Node<E> current =
+
+    //Problem 6
+    /**
+     * breadthFirstTraversal function to search and print the tree in
+     * Breadth first search traversal
+     */
+    public void breadthFirstTraversal(){
+        int h = getHeight(root);
+        int i;
+        for(i = 1; i <= h; i++)
+            printCurrentLevel(root, i);
+    }
+
+    /**
+     * getheight gets the height of the tree
+     * @param root
+     * @return the height of the tree in int
+     */
+    //get the height of the tree
+    public int getHeight(Node root){
+        if(root == null){
+            return 0;
+        }
+        else{
+            int leftHeight = getHeight(root.left);
+            int rightHeight = getHeight(root.right);
+
+            if(leftHeight > rightHeight)
+                return (leftHeight + 1);
+            else
+                return (rightHeight + 1);
+        }
+    }
+
+    /**
+     * prints the current level of the tree
+     * @param root
+     * @param level
+     */
+    //print from bottom to top
+    public void printCurrentLevel(Node root, int level){
+        if(root == null)
+            return;
+        if(level == 1)
+            System.out.print(root.e + " ");
+        else if(level > 1){
+            printCurrentLevel(root.left, level - 1);
+            printCurrentLevel(root.right, level - 1);
+        }
     }
 
 
