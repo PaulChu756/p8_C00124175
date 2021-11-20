@@ -218,6 +218,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
      * deleteTree
      * using preorder to delete the nodes that are marked to be deleted
      * @param current delete the nodes and insert them into a different tree
+     * @return return the deleted nodes into a tempTree
      */
     public MyBinaryTree deleteTree(Node<E> current){
         //using preorder travseral to delete
