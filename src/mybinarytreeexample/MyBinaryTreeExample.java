@@ -88,5 +88,13 @@ public class MyBinaryTreeExample {
         mbt.preorder();
         mbt = mbt.deleteTree(mbt.getRoot());
         mbt.displayLeaves(mbt.getRoot());
+        mbt.insert(9);
+        mbt.preorder();
+        mbt.insert(3);
+        mbt.preorder();
+        mbt.insert(3);
+        mbt.preorder();
+        mbt.insert(7);
+        mbt.preorder();
     }
 }
