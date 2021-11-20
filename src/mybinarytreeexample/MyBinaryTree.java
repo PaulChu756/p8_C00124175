@@ -95,7 +95,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
     //Problem 2
     /**
      * Delete the node, but modfited it to flag nodes that have been deleted
-     * @param e
+     * @param e node to delete in BST
      * @return returns true or false if node was deleted
      */
     public boolean delete(E e) {
@@ -184,7 +184,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
     //Problem 3
     /**
      * Search through the BST to see if it's found in BST
-     * @param e
+     * @param e node to search for in BST
      * @return true or false if element is found
      */
     public boolean search(E e){
@@ -217,7 +217,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
     /**
      * deleteTree
      * using preorder to delete the nodes that are marked to be deleted
-     * @param current
+     * @param current delete the nodes and insert them into a different tree
      */
     public MyBinaryTree deleteTree(Node<E> current){
         //using preorder travseral to delete
@@ -234,7 +234,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
     //Problem 5
     /**
      * Display leaves just displays all the leaf nodes
-     * @param current
+     * @param current pass node and see which leaves are returns
      */
     public void displayLeaves(Node<E> current){
         if(current != null){
@@ -261,7 +261,7 @@ public class MyBinaryTree<E extends Comparable<E>> {
 
     /**
      * getheight gets the height of the tree
-     * @param root
+     * @param root pass root node to get height of tree
      * @return the height of the tree in int
      */
     //get the height of the tree
@@ -282,8 +282,8 @@ public class MyBinaryTree<E extends Comparable<E>> {
 
     /**
      * prints the current level of the tree
-     * @param root
-     * @param level
+     * @param root pass current node
+     * @param level pass which level your on
      */
     //print from bottom to top
     public void printCurrentLevel(Node root, int level){
